@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="ir.fearefull.knowledgeextractionapp.ui.relation.RelationListViewModel" />
+    </data>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mutableVisibility="@{viewModel.getLoadingVisibility()}"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/relation_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter="@{viewModel.getRelationListAdapter()}"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:padding="10dp"
+                android:hint="@string/edit_text_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                app:onEditorSearchAction="@{viewModel.onSearchClickListener}"/>
+    </RelativeLayout>
+</layout>
