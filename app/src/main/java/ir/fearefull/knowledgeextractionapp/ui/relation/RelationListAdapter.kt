@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ir.fearefull.knowledgeextractionapp.R
 import ir.fearefull.knowledgeextractionapp.databinding.ItemRelationBinding
-import ir.fearefull.knowledgeextractionapp.model.Relation
+import ir.fearefull.knowledgeextractionapp.data.model.api.RelationResponse
 
 class RelationListAdapter: RecyclerView.Adapter<RelationListAdapter.ViewHolder>() {
-    private lateinit var relationList:List<Relation>
+    private lateinit var relationResponseList:List<RelationResponse>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelationListAdapter.ViewHolder {
         val binding: ItemRelationBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_relation, parent, false)
@@ -17,15 +17,15 @@ class RelationListAdapter: RecyclerView.Adapter<RelationListAdapter.ViewHolder>(
     }
 
     override fun onBindViewHolder(holder: RelationListAdapter.ViewHolder, position: Int) {
-        holder.bind(relationList[position])
+        holder.bind(relationResponseList[position])
     }
 
     override fun getItemCount(): Int {
-        return if(::relationList.isInitialized) relationList.size else 0
+        return if(::relationResponseList.isInitialized) relationResponseList.size else 0
     }
 
-    fun updateRelationList(relationList:List<Relation>){
-        this.relationList = relationList
+    fun updateRelationList(relationResponseList:List<RelationResponse>){
+        this.relationResponseList = relationResponseList
         notifyDataSetChanged()
     }
 
@@ -33,8 +33,8 @@ class RelationListAdapter: RecyclerView.Adapter<RelationListAdapter.ViewHolder>(
         private val viewModel = RelationViewModel()
 
 
-        fun bind(relation: Relation){
-            viewModel.bind(relation)
+        fun bind(relationResponse: RelationResponse){
+            viewModel.bind(relationResponse)
             binding.viewModel = viewModel
         }
     }

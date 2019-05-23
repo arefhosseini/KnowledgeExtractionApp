@@ -8,17 +8,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import ir.fearefull.knowledgeextractionapp.R
-import ir.fearefull.knowledgeextractionapp.base.BaseViewModel
-import ir.fearefull.knowledgeextractionapp.model.MyResponse
-import ir.fearefull.knowledgeextractionapp.network.RelationApi
+import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
+import ir.fearefull.knowledgeextractionapp.data.remote.ApiHelper
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONObject
 import javax.inject.Inject
 
-class RelationListViewModel: BaseViewModel(){
+class RelationListViewModel: BaseViewModel<Any?>(){
     @Inject
-    lateinit var relationApi: RelationApi
+    lateinit var apiHelper: ApiHelper
 
     private lateinit var subscription: Disposable
 
@@ -29,10 +28,10 @@ class RelationListViewModel: BaseViewModel(){
     val onSearchClickListener: Function1<String, Unit> = this::onSearchClickListener
     val relationListAdapter: RelationListAdapter = RelationListAdapter()
 
-    var text: String = ""
+    private var text: String = ""
 
     private fun onLoadRelations() {
-        subscription = relationApi.getRelations(createRequestBody())
+        subscription = apiHelper.getRelations(createRequestBody())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onRetrieveRelationListStart() }
@@ -59,7 +58,7 @@ class RelationListViewModel: BaseViewModel(){
     }
 
     private fun onRetrieveRelationListSuccess(myResponse: MyResponse){
-        relationListAdapter.updateRelationList(myResponse.relations)
+        relationListAdapter.updateRelationList(myResponse.relationResponses)
     }
 
     private fun onRetrieveRelationListError(error: Throwable){

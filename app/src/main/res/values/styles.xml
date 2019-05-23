@@ -21,4 +21,20 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="TextAppearance.Text.Regular" parent="android:TextAppearance">
+        <item name="fontPath">fonts/my_font.ttf</item>
+    </style>
+
+    <style name="TextAppearance.Text.Bold" parent="android:TextAppearance">
+        <item name="fontPath">fonts/my_font.ttf</item>
+    </style>
+
+    <style name="TextAppearance.Text.Light" parent="android:TextAppearance">
+        <item name="fontPath">fonts/my_font.ttf</item>
+    </style>
+
+    <style name="TextAppearance.Text.Italic" parent="android:TextAppearance">
+        <item name="fontPath">fonts/my_font.ttf</item>
+    </style>
+
 </resources>

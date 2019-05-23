@@ -5,7 +5,7 @@
     <data>
         <variable
                 name="viewModel"
-                type="ir.fearefull.knowledgeextractionapp.ui.relation.RelationViewModel" />
+                type="ir.fearefull.knowledgeextractionapp.ui.relationResponse.RelationViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout

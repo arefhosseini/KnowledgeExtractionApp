@@ -31,39 +31,56 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$android_support_version"
 
+    // dependencies for local unit tests
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01'
     testImplementation 'junit:junit:4.12'
+
+    // UI testing
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    // Support Design
+    // android support libraries
+    implementation "com.android.support:appcompat-v7:$android_support_version"
     implementation "com.android.support:design:$android_support_version"
-
-    // RecyclerView
+    implementation "com.android.support.constraint:constraint-layout:1.1.3"
     implementation "com.android.support:recyclerview-v7:$android_support_version"
 
-    // Constraint Layout
-    implementation "com.android.support.constraint:constraint-layout:1.1.3"
+    // live data & view model
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    // LiveData & ViewModel
-    implementation"android.arch.lifecycle:extensions:$lifecycle_version"
+    // data binding
+    kapt "androidx.databinding:databinding-compiler:$data_binbding_version"
 
-    // Data binding
-    kapt "androidx.databinding:databinding-compiler:3.3.2"
-
-    // Retrofit2
+    // network
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // parser
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
-    // Dagger2
+    // dependency injection
     implementation "com.google.dagger:dagger:$dagger2_version"
+    implementation "com.google.dagger:dagger-android:$dagger2_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2_version"
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
-    compileOnly "org.glassfish:javax.annotation:3.1.1"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
+    compileOnly "org.glassfish:javax.annotation:$glassfish_version"
 
-    //Rx
-    implementation "io.reactivex.rxjava2:rxjava:2.2.8"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    // reactive
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // fonts
+    implementation "uk.co.chrisjenx:calligraphy:$calligraphy_version"
+
+    // logger
+    implementation "com.jakewharton.timber:timber:$timber_version"
 }
