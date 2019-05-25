@@ -3,13 +3,11 @@ package ir.fearefull.knowledgeextractionapp.ui.base
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
+import ir.fearefull.knowledgeextractionapp.data.DataManager
 import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
 import java.lang.ref.WeakReference
-import io.reactivex.internal.disposables.DisposableHelper.dispose
-import ir.fearefull.knowledgeextractionapp.data.DataManager
 
-
-abstract class BaseViewModel<N, T>(schedulerProvider: SchedulerProvider, dataManager: DataManager): ViewModel() {
+abstract class BaseViewModel<N>(dataManager: DataManager, schedulerProvider: SchedulerProvider): ViewModel() {
 
     private var compositeDisposable: CompositeDisposable? = null
 
@@ -34,8 +32,6 @@ abstract class BaseViewModel<N, T>(schedulerProvider: SchedulerProvider, dataMan
 
     fun getCompositeDisposable() = compositeDisposable
 
-    fun getDataManager() = dataManager
-
     fun getIsLoading() = isLoading
 
     fun setIsLoading(isLoading: Boolean) {
@@ -47,6 +43,8 @@ abstract class BaseViewModel<N, T>(schedulerProvider: SchedulerProvider, dataMan
     fun setNavigator(navigator: N) {
         this.navigator = WeakReference(navigator)
     }
+
+    fun getDataManager() = dataManager
 
     fun getSchedulerProvider() = schedulerProvider
 }

@@ -14,5 +14,5 @@ interface ApiHelper {
      * Get the list of the relationResponses from the API
      */
     @POST("/text/")
-    fun getRelations(@Body request: RequestBody): Observable<RelationResponse>
+    fun getData(@Body request: RequestBody): Observable<RelationResponse>
 }

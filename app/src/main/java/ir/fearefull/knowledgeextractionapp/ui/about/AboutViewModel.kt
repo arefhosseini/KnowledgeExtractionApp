@@ -1,7 +1,13 @@
 package ir.fearefull.knowledgeextractionapp.ui.about
 
-import androidx.lifecycle.ViewModel;
+import ir.fearefull.knowledgeextractionapp.data.DataManager
+import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
+import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 
-class AboutViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class AboutViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider) :
+    BaseViewModel<AboutNavigator>(dataManager, schedulerProvider) {
+
+    fun onNavBackClick() {
+        getNavigator()?.goBack()
+    }
 }

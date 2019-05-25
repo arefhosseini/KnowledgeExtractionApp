@@ -17,15 +17,13 @@ import ir.fearefull.knowledgeextractionapp.utils.CommonUtils
 import ir.fearefull.knowledgeextractionapp.utils.NetworkUtils
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
+abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity(), BaseFragment.Callback {
 
-abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppCompatActivity(), BaseFragment.Callback {
-
-    // TODO
     // this can probably depend on isLoading variable of BaseViewModel,
     // since its going to be common for all the activities
     private var progressBar: ProgressBar? = null
-    var viewDataBinding: T? = null
-    private var mViewModel: V? = null
+    private lateinit var viewDataBinding: T
+    private var viewModel: V? = null
 
     /**
      * Override for set binding variable
@@ -65,6 +63,10 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppC
         performDataBinding()
     }
 
+    fun getViewDataBinding(): T? {
+        return viewDataBinding
+    }
+
     fun isNetworkConnected(): Boolean = NetworkUtils.isNetworkConnected(applicationContext)
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -81,8 +83,8 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppC
     }
 
     private fun hideLoading() {
-        if (progressBar != null && progressBar!!.visibility == View.VISIBLE) {
-            progressBar!!.visibility = View.GONE
+        if (progressBar?.visibility == View.VISIBLE) {
+            progressBar?.visibility = View.GONE
         }
     }
 
@@ -104,8 +106,9 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*, *>> : AppC
 
     private fun performDataBinding() {
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
-        this.mViewModel = if (mViewModel == null) getViewModel() else mViewModel
-        viewDataBinding?.setVariable(getBindingVariable(), mViewModel)
-        viewDataBinding?.executePendingBindings()
+        this.viewModel = if (viewModel == null) getViewModel() else viewModel
+
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding.executePendingBindings()
     }
 }

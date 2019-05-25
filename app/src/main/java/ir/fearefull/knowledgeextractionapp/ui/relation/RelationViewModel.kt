@@ -1,30 +1,41 @@
 package ir.fearefull.knowledgeextractionapp.ui.relation
 
-import androidx.lifecycle.MutableLiveData
-import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
+import android.util.Log
+import io.reactivex.disposables.Disposable
+import ir.fearefull.knowledgeextractionapp.data.DataManager
 import ir.fearefull.knowledgeextractionapp.data.model.api.RelationResponse
+import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
+import ir.fearefull.knowledgeextractionapp.utils.AppLogger
+import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
 
+class RelationViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider) :
+    BaseViewModel<RelationNavigator>(dataManager, schedulerProvider) {
 
-class RelationViewModel: BaseViewModel<Any?>() {
-    private val relationSubject = MutableLiveData<String>()
-    private val relationPredicate = MutableLiveData<String>()
-    private val relationObject = MutableLiveData<String>()
+    val onSearchClickListener: Function1<String, Unit> = this::onSearchClickListener
 
-    fun bind(relationResponse: RelationResponse){
-        relationSubject.value = relationResponse.subject
-        relationPredicate.value = relationResponse.predicate
-        relationObject.value = relationResponse.obj
+    private fun onSearchClickListener(text: String) {
+        AppLogger.d("text", text)
+
+        loadRelations(text)
     }
 
-    fun getRelationSubject(): MutableLiveData<String> {
-        return relationSubject
+    private fun loadRelations(text: String) {
+        val subscription: Disposable = getDataManager()?.getRelations(text)
+            ?.subscribeOn(getSchedulerProvider()?.io())
+            ?.observeOn(getSchedulerProvider()?.ui())
+            ?.doOnSubscribe { setIsLoading(true) }
+            ?.doOnTerminate { setIsLoading(false) }
+            ?.subscribe(
+                { result -> onRetrieveRelationListSuccess(result) },
+                { throwable -> getNavigator()?.handleError(throwable)})!!
+
+        getCompositeDisposable()?.add(subscription)
     }
 
-    fun getRelationPredicate(): MutableLiveData<String>{
-        return relationPredicate
-    }
-
-    fun getRelationObject(): MutableLiveData<String>{
-        return relationObject
+    private fun onRetrieveRelationListSuccess(relationResponse: RelationResponse){
+        if (relationResponse.relations.nodes.isNotEmpty())
+            AppLogger.d(relationResponse.relations.nodes[0].label)
+        else
+            AppLogger.d("zero")
     }
 }

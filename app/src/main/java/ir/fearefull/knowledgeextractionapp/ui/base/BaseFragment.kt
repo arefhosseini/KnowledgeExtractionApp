@@ -11,13 +11,12 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
+abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : Fragment() {
 
-abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*, *>> : Fragment() {
-
-    var baseActivity: BaseActivity<*, *>? = null
-    private var mRootView: View? = null
-    var viewDataBinding: T? = null
-    private var mViewModel: V? = null
+    private var baseActivity: BaseActivity<*, *>? = null
+    private lateinit var mRootView: View
+    private lateinit var viewDataBinding: T
+    private lateinit var mViewModel: V
 
     /**
      * Override for set binding variable
@@ -39,8 +38,8 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*, *>> : Frag
      */
     abstract fun getViewModel(): V
 
-    val isNetworkConnected: Boolean
-        get() = baseActivity != null && baseActivity!!.isNetworkConnected()
+    val isNetworkConnected: Boolean?
+        get() = baseActivity?.isNetworkConnected()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,8 +58,8 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*, *>> : Frag
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
-        mRootView = viewDataBinding!!.root
-        return mRootView as View
+        mRootView = viewDataBinding.root
+        return mRootView
     }
 
     override fun onDetach() {
@@ -70,15 +69,15 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*, *>> : Frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewDataBinding!!.setVariable(getBindingVariable(), mViewModel)
-        viewDataBinding!!.lifecycleOwner = this
-        viewDataBinding!!.executePendingBindings()
+        viewDataBinding.setVariable(getBindingVariable(), mViewModel)
+        viewDataBinding.lifecycleOwner = this
+        viewDataBinding.executePendingBindings()
     }
 
+    fun getBaseActivity(): BaseActivity<*, *>? = baseActivity
+
     fun hideKeyboard() {
-        if (baseActivity != null) {
-            baseActivity!!.hideKeyboard()
-        }
+        baseActivity?.hideKeyboard()
     }
 
     private fun performDependencyInjection() {

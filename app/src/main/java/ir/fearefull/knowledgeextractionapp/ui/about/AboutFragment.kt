@@ -1,33 +1,46 @@
 package ir.fearefull.knowledgeextractionapp.ui.about
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProviders
+import ir.fearefull.knowledgeextractionapp.BR
 import ir.fearefull.knowledgeextractionapp.R
+import ir.fearefull.knowledgeextractionapp.ViewModelProviderFactory
+import ir.fearefull.knowledgeextractionapp.ui.base.BaseFragment
+import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
+import javax.inject.Inject
 
-
-class AboutFragment : Fragment() {
+class AboutFragment : BaseFragment<ViewDataBinding, BaseViewModel<*>>(), AboutNavigator {
 
     companion object {
-        fun newInstance() = AboutFragment()
+        @JvmStatic val TAG: String = AboutFragment::class.java.simpleName
+
+        fun newInstance(): AboutFragment {
+            val args = Bundle()
+            val fragment = AboutFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
-    private lateinit var viewModel: AboutViewModel
+    @Inject
+    lateinit var factory: ViewModelProviderFactory
+    private lateinit var aboutViewModel: AboutViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.about_fragment, container, false)
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.fragment_about
+
+    override fun getViewModel(): BaseViewModel<*> {
+        aboutViewModel = ViewModelProviders.of(this, factory).get(AboutViewModel::class.java)
+        return aboutViewModel
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AboutViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun goBack() = getBaseActivity()?.onFragmentDetached(TAG)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        aboutViewModel.setNavigator(this)
     }
 
 }

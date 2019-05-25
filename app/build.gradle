@@ -35,10 +35,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // dependencies for local unit tests
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01'
     testImplementation 'junit:junit:4.12'
 
@@ -83,4 +83,7 @@ dependencies {
 
     // logger
     implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // memory leak detection
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }

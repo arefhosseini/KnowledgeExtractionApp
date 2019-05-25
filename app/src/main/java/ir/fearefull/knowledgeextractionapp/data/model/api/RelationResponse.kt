@@ -2,18 +2,37 @@ package ir.fearefull.knowledgeextractionapp.data.model.api
 
 import com.squareup.moshi.Json
 
-class RelationResponse(@field:Json(name = "relations") var relations: List<Relation>) {
+data class RelationResponse(
+    @Json(name = "relations") val relations: Relation
+)
 
-    /**
-     * Class which provides a model for relation
-     * @constructor Sets all properties of the relation
-     * @property subject the subject of the relation
-     * @property predicate the predicate of the relation
-     * @property obj the obj of the relation
-     */
+data class Relation(
+    @Json(name = "nodes") var nodes: List<Node>,
+    @Json(name = "edges") var edges: List<Edge>
+)
 
-    data class Relation(@field:Json(name = "subject") val subject: String,
-                        @field:Json(name = "predicate") val predicate: String,
-                        @field:Json(name = "object") val obj: String)
-}
+/**
+ * Class which provides a model for Node
+ * @constructor Sets all properties of the Node
+ * @property id the id of the Node
+ * @property label the label of the Node
+ */
 
+data class Node(
+    @Json(name = "id") val id: Int,
+    @Json(name = "label") val label: String)
+
+/**
+ * Class which provides a model for Edge
+ * @constructor Sets all properties of the Edge
+ * @property id the subject of the Edge
+ * @property label the predicate of the Edge
+ * @property from the predicate of the Edge
+ * @property to the obj of the Edge
+ */
+
+data class Edge(
+    @Json(name = "id") val id: Int,
+    @Json(name = "label") val label: String,
+    @Json(name = "from") val from: Int,
+    @Json(name = "to") val to: Int)
