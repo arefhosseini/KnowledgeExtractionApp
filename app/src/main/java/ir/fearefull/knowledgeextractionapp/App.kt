@@ -2,14 +2,13 @@ package ir.fearefull.knowledgeextractionapp
 
 import android.app.Activity
 import android.app.Application
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.reactivex.plugins.RxJavaPlugins
 import ir.fearefull.knowledgeextractionapp.di.component.DaggerAppComponent
-
-import javax.inject.Inject
+import timber.log.Timber
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-import ir.fearefull.knowledgeextractionapp.utils.AppLogger
+import javax.inject.Inject
 
 class App: Application(), HasActivityInjector {
 
@@ -29,7 +28,10 @@ class App: Application(), HasActivityInjector {
             .build()
             .inject(this)
 
-        AppLogger.init()
+        Timber.plant(Timber.DebugTree())
+
+        RxJavaPlugins.setErrorHandler { Timber.e(it) }
+
 
         CalligraphyConfig.initDefault(calligraphyConfig)
     }

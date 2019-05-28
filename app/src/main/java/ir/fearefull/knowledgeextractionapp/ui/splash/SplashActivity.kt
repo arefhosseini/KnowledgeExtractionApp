@@ -10,7 +10,7 @@ import ir.fearefull.knowledgeextractionapp.ViewModelProviderFactory
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseActivity
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 import ir.fearefull.knowledgeextractionapp.ui.relation.RelationActivity
-import ir.fearefull.knowledgeextractionapp.utils.AppLogger
+import timber.log.Timber
 import javax.inject.Inject
 
 class SplashActivity : BaseActivity<ViewDataBinding, BaseViewModel<*>>(), SplashNavigator {
@@ -24,7 +24,7 @@ class SplashActivity : BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Splash
 
     override fun getViewModel(): BaseViewModel<*> {
         splashViewModel = ViewModelProviders.of(this, factory).get(SplashViewModel::class.java)
-        AppLogger.d("created")
+        Timber.d("created")
         return splashViewModel
     }
 

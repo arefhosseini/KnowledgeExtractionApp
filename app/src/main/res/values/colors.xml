@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#222</color>
+    <color name="colorPrimaryDark">#181818</color>
+    <color name="colorAccent">#ba7a7a</color>
+
+    <color name="background">#222</color>
+    <color name="background_light">#FFFFFF</color>
+    <color name="background_edit_text">#26A3876A</color>
+
+    <color name="text">#FFFFFF</color>
+
+    // graph
+    <color name="default_graph">#222</color>
+    <color name="graph_edge">#FFFFFF</color>
+    <color name="graph_node">#FFFFFF</color>
+    <color name="graph_node_background">#ffffffff</color>
 </resources>

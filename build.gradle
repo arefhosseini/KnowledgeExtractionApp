@@ -13,6 +13,7 @@ buildscript {
     ext.calligraphy_version = '2.3.0'
     ext.timber_version = '4.7.1'
     ext.leakcanary_version = '2.0-alpha-2'
+    ext.network_graph_version = '0.0.1'
 
     repositories {
         google()

@@ -85,5 +85,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
 
     // memory leak detection
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    //debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+
+    // graph
+    implementation "org.giwi:android-network-graph:$network_graph_version"
 }

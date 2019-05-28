@@ -10,6 +10,8 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import giwi.org.networkgraph.GraphSurfaceView
+import giwi.org.networkgraph.beans.NetworkGraph
 import ir.fearefull.knowledgeextractionapp.utils.extension.getParentActivity
 
 object BindingUtils {
@@ -36,6 +38,12 @@ object BindingUtils {
     fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
         view.adapter = adapter
     }
+
+    /*@BindingAdapter("networkGraph")
+    @JvmStatic
+    fun setNetworkGraph(view: GraphSurfaceView, networkGraph: NetworkGraph) {
+        view.init(networkGraph)
+    }*/
 
     @BindingAdapter("onEditorSearchAction")
     @JvmStatic

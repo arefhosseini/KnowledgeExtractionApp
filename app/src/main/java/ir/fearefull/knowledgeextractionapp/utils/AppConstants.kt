@@ -5,5 +5,5 @@ object AppConstants {
     const val BASE_URL: String = "http://10.0.2.2:8000/"
 
     /** The duration of Splash Screen */
-    const val SPALSH_SCREEN_DURATION: Long = 2000L
+    const val SPLASH_SCREEN_DURATION: Long = 2000L
 }
