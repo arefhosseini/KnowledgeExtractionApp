@@ -11,8 +11,6 @@ import ir.fearefull.knowledgeextractionapp.data.DataManager
 import ir.fearefull.knowledgeextractionapp.data.remote.ApiHelper
 import ir.fearefull.knowledgeextractionapp.graph.AppGraphManager
 import ir.fearefull.knowledgeextractionapp.graph.GraphManager
-import ir.fearefull.knowledgeextractionapp.graph.remote.AppGraphHelper
-import ir.fearefull.knowledgeextractionapp.graph.remote.GraphHelper
 import ir.fearefull.knowledgeextractionapp.utils.AppConstants.BASE_URL
 import ir.fearefull.knowledgeextractionapp.utils.rx.AppSchedulerProvider
 import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
@@ -52,17 +50,13 @@ class AppModule {
     }
 
     /**
-     * Provides the RelationResponse service implementation.
+     * Provides the RelationsResponse service implementation.
      * @param retrofit the Retrofit object used to instantiate the service
-     * @return the RelationResponse service implementation.
+     * @return the RelationsResponse service implementation.
      */
     @Provides
     @Singleton
     fun provideApiHelper(retrofit: Retrofit): ApiHelper = retrofit.create(ApiHelper::class.java)
-
-    @Provides
-    @Singleton
-    fun provideGraphHelper(appGraphHelper: AppGraphHelper): GraphHelper = appGraphHelper
 
     @Provides
     @Singleton

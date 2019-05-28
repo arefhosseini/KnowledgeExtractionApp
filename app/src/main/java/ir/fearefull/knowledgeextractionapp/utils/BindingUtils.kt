@@ -10,8 +10,6 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import giwi.org.networkgraph.GraphSurfaceView
-import giwi.org.networkgraph.beans.NetworkGraph
 import ir.fearefull.knowledgeextractionapp.utils.extension.getParentActivity
 
 object BindingUtils {

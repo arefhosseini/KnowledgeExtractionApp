@@ -6,4 +6,7 @@ object AppConstants {
 
     /** The duration of Splash Screen */
     const val SPLASH_SCREEN_DURATION: Long = 2000L
+
+    /** The width stroke of Edge Graph */
+    const val STROKE_WIDTH_EDGE: Long = 10L
 }

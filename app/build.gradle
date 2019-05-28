@@ -87,6 +87,6 @@ dependencies {
     // memory leak detection
     //debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 
-    // graph
-    implementation "org.giwi:android-network-graph:$network_graph_version"
+    // collection 4
+    implementation "org.apache.commons:commons-collections4:$collection4_version"
 }

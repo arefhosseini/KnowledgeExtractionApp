@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ir.fearefull.knowledgeextractionapp.ui.custom.MyGraphSurfaceView
+<ir.fearefull.knowledgeextractionapp.ui.custom.GraphSurfaceView
         android:id="@+id/graphSurface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

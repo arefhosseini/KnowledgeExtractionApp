@@ -1,12 +1,9 @@
 package ir.fearefull.knowledgeextractionapp.graph
 
-import giwi.org.networkgraph.beans.NetworkGraph
-import ir.fearefull.knowledgeextractionapp.graph.remote.GraphHelper
+import ir.fearefull.knowledgeextractionapp.data.model.api.RelationsResponse
+import ir.fearefull.knowledgeextractionapp.data.model.other.Graph
 
-interface GraphManager: GraphHelper {
-    fun getGraphNetwork(): NetworkGraph
-    fun createGraph()
-    fun createEdge(label: String, from: Int, to: Int)
-    fun createNode(label: String)
-    fun clearGraph()
+interface GraphManager {
+    fun createGraph(relationsResponse: RelationsResponse)
+    fun getMyGraph(): Graph
 }

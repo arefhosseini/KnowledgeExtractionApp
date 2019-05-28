@@ -4,26 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import giwi.org.networkgraph.beans.Vertex
 import ir.fearefull.knowledgeextractionapp.BR
 import ir.fearefull.knowledgeextractionapp.R
 import ir.fearefull.knowledgeextractionapp.ViewModelProviderFactory
 import ir.fearefull.knowledgeextractionapp.databinding.ActivityRelationBinding
-import ir.fearefull.knowledgeextractionapp.graph.custom.MyNetworkGraph
 import ir.fearefull.knowledgeextractionapp.ui.about.AboutFragment
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseActivity
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
-import ir.fearefull.knowledgeextractionapp.ui.custom.MyGraphSurfaceView
-import net.xqhs.graphs.graph.Node
-import net.xqhs.graphs.graph.SimpleEdge
-import net.xqhs.graphs.graph.SimpleNode
+import ir.fearefull.knowledgeextractionapp.ui.custom.GraphSurfaceView
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,7 +32,6 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     lateinit var factory: ViewModelProviderFactory
     private lateinit var relationViewModel: RelationViewModel
     private lateinit var relationActivityBinding: ActivityRelationBinding
-    private lateinit var graphLayout: RelativeLayout
 
     companion object {
         fun newIntent(context: Context) = Intent(context, RelationActivity::class.java)
@@ -91,7 +85,8 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     }
 
     private fun setUp() {
-        graphLayout = relationActivityBinding.graphLayout
+        relationActivityBinding.graphLayout
+
     }
 
     private fun showAboutFragment() {
@@ -108,44 +103,14 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
 
         val graphSurface =
             LayoutInflater.from(applicationContext).inflate(R.layout.graph_surface_view,
-                graphLayout, false) as MyGraphSurfaceView
-        graphLayout.addView(graphSurface)
+                relationActivityBinding.graphLayout, false) as GraphSurfaceView
+        relationActivityBinding.graphLayout.addView(graphSurface)
 
-        val graph = MyNetworkGraph(applicationContext)
-
-        graph.defaultColor = ContextCompat.getColor(this, android.R.color.black)
-        graph.edgeColor = ContextCompat.getColor(this, android.R.color.holo_blue_light)
-        graph.nodeColor = ContextCompat.getColor(this, android.R.color.holo_blue_light)
-        graph.nodeBgColor = ContextCompat.getColor(this, android.R.color.white)
-
-        var v1: Node = SimpleNode("18")
-        val v2: Node = SimpleNode("24")
-        graph.vertex.add(Vertex(v1, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.vertex.add(Vertex(v2, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.addEdge(SimpleEdge(v1, v2, "12"))
-
-        val v3: Node = SimpleNode("7")
-        graph.vertex.add(Vertex(v3, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.addEdge(SimpleEdge(v2, v3, "23"))
-
-        v1 = SimpleNode("14")
-        graph.vertex.add(Vertex(v1, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.addEdge(SimpleEdge(v3, v1, "34"))
-
-        v1 = SimpleNode("10")
-        graph.vertex.add(Vertex(v1, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.addEdge(SimpleEdge(v3, v1, "35"))
-
-        v1 = SimpleNode("11")
-        graph.vertex.add(Vertex(v1, ContextCompat.getDrawable(this, R.mipmap.avatar)))
-        graph.addEdge(SimpleEdge(v1, v3, "36"))
-        graph.addEdge(SimpleEdge(v3, v1, "6"))
-
-        graphSurface.init(graph)
+        graphSurface.init(relationViewModel.getGraph())
         //graphSurface.createGraph()
     }
 
     override fun removeGraph() {
-        graphLayout.removeAllViews()
+        relationActivityBinding.graphLayout.removeAllViews()
     }
 }

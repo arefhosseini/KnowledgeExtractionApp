@@ -1,25 +1,26 @@
 package ir.fearefull.knowledgeextractionapp.ui.custom;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.*;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
-import giwi.org.networkgraph.GraphSurfaceView;
-import giwi.org.networkgraph.beans.*;
-import giwi.org.networkgraph.layout.FRLayout;
+import android.view.SurfaceView;
 import io.reactivex.annotations.NonNull;
 import ir.fearefull.knowledgeextractionapp.R;
-import ir.fearefull.knowledgeextractionapp.graph.custom.MyNetworkGraph;
-import net.xqhs.graphs.graph.Edge;
+import ir.fearefull.knowledgeextractionapp.data.model.other.Edge;
+import ir.fearefull.knowledgeextractionapp.data.model.other.Graph;
+import ir.fearefull.knowledgeextractionapp.data.model.other.Node;
+import ir.fearefull.knowledgeextractionapp.graph.core.bean.ArcUtils;
+import ir.fearefull.knowledgeextractionapp.graph.core.bean.Dimension;
+import ir.fearefull.knowledgeextractionapp.graph.core.bean.Point2D;
+import ir.fearefull.knowledgeextractionapp.graph.core.layout.FRLayout;
+import ir.fearefull.knowledgeextractionapp.utils.AppConstants;
+import timber.log.Timber;
 
-public class MyGraphSurfaceView extends GraphSurfaceView {
+public class GraphSurfaceView extends SurfaceView {
     private ScaleGestureDetector mScaleDetector;
-
-    private TypedArray attributes;
 
     private float mScaleFactor = 1.f;
 
@@ -28,7 +29,7 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
      *
      * @param context the context
      */
-    public MyGraphSurfaceView(Context context) {
+    public GraphSurfaceView(Context context) {
         super(context);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }
@@ -39,9 +40,8 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
      * @param context the context
      * @param attrs   the attrs
      */
-    public MyGraphSurfaceView(Context context, AttributeSet attrs) {
+    public GraphSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyGraphSurfaceView);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }
 
@@ -52,9 +52,8 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
      * @param attrs    the attrs
      * @param defStyle the def style
      */
-    public MyGraphSurfaceView(Context context, AttributeSet attrs, int defStyle) {
+    public GraphSurfaceView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        attributes = getContext().obtainStyledAttributes(attrs, R.styleable.MyGraphSurfaceView);
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }
 
@@ -64,7 +63,7 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
      *
      * @param graph the graph
      */
-    public void init(final MyNetworkGraph graph) {
+    public void init(final Graph graph) {
         setZOrderOnTop(true);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -86,7 +85,7 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
         });
     }
 
-    private void drawGraph(final Canvas canvas, final MyNetworkGraph graph) {
+    private void drawGraph(final Canvas canvas, final Graph graph) {
         Paint paint = new Paint();
         Paint whitePaint = new Paint();
         Paint accentPaint = new Paint();
@@ -95,37 +94,37 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
         whitePaint.setColor(getResources().getColor(R.color.background_light));
         whitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         whitePaint.setStrokeWidth(2f);
-        whitePaint.setShadowLayer(5, 0, 0, attributes.getColor(R.styleable.GraphSurfaceView_defaultColor, graph
-                .getDefaultColor()));
+        whitePaint.setTextSize(35);
+        whitePaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.default_graph));
         accentPaint.setColor(getResources().getColor(R.color.colorAccent));
         accentPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         accentPaint.setStrokeWidth(2f);
-        accentPaint.setShadowLayer(5, 0, 0, attributes.getColor(R.styleable.GraphSurfaceView_defaultColor, graph
-                .getDefaultColor()));
+        accentPaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.default_graph));
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(20f);
+        paint.setTextSize(50f);
         paint.setColor(getResources().getColor(R.color.background));
+        Paint curvePaint = new Paint();
+        curvePaint.setAntiAlias(true);
+        curvePaint.setStyle(Paint.Style.STROKE);
+        curvePaint.setStrokeWidth(2);
+        curvePaint.setColor(getResources().getColor(R.color.background_light));
         for (Edge edge : graph.getEdges()) {
             Point2D p1 = layout.transform(edge.getFrom());
             Point2D p2 = layout.transform(edge.getTo());
-            paint.setStrokeWidth(attributes.getFloat(R.styleable.MyGraphSurfaceView_edgeStrokeWidth, graph.getEdgeStrokeWidth()));
+            paint.setStrokeWidth(AppConstants.STROKE_WIDTH_EDGE);
             paint.setColor(getResources().getColor(R.color.colorAccent));
-            Paint curve = new Paint();
-            curve.setAntiAlias(true);
-            curve.setStyle(Paint.Style.STROKE);
-            curve.setStrokeWidth(2);
-            curve.setColor(getResources().getColor(R.color.background_light));
             PointF e1 = new PointF((float) p1.getX(), (float) p1.getY());
             PointF e2 = new PointF((float) p2.getX(), (float) p2.getY());
-            ArcUtils.drawArc(e1, e2, 36f, canvas, curve, paint, whitePaint, graph.getEdgeStrokeWidth());
+            Timber.tag("edge").d(edge.getString());
+            ArcUtils.drawArc(e1, e2, 36f, canvas, curvePaint, whitePaint, AppConstants.STROKE_WIDTH_EDGE, edge.getString());
         }
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(50f);
         paint.setStrokeWidth(0f);
         paint.setColor(getResources().getColor(R.color.background_light));
-        for (Vertex node : graph.getVertex()) {
-            Point2D position = layout.transform(node.getNode());
+        for (Node node : graph.getNodes()) {
+            Point2D position = layout.transform(node);
 
             canvas.drawRoundRect(
                     (float) position.getX() - 75,
@@ -135,7 +134,7 @@ public class MyGraphSurfaceView extends GraphSurfaceView {
                     10,
                     10,
                     accentPaint);
-            canvas.drawText(node.getNode().getLabel(), (float) position.getX(),
+            canvas.drawText(node.getLabel(), (float) position.getX(),
                     (float) position.getY(), paint);
         }
     }

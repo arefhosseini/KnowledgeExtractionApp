@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View" />
@@ -36,8 +36,11 @@
                     android:imeOptions="actionSearch"
                     android:textColor="@color/text"
                     android:textDirection="rtl"
+                    android:drawableRight="@drawable/ic_search_white_24dp"
+                    android:drawablePadding="10dp"
                     android:inputType="text"
-                    app:onEditorSearchAction="@{viewModel.onSearchClickListener}"/>
+                    app:onEditorSearchAction="@{viewModel.onSearchClickListener}"
+                    tools:ignore="RtlHardcoded"/>
 
             <RelativeLayout
                     android:id="@+id/graphLayout"
