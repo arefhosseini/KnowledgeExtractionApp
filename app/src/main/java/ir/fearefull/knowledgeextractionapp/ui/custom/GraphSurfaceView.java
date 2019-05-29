@@ -70,7 +70,7 @@ public class GraphSurfaceView extends SurfaceView {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 Canvas canvas = holder.lockCanvas(null);
-                canvas.drawColor(getResources().getColor(R.color.background));
+                canvas.drawColor(getResources().getColor(R.color.backgroundColorLightTheme));
                 drawGraph(canvas, graph);
                 holder.unlockCanvasAndPost(canvas);
             }
@@ -88,41 +88,45 @@ public class GraphSurfaceView extends SurfaceView {
     private void drawGraph(final Canvas canvas, final Graph graph) {
         Paint paint = new Paint();
         Paint whitePaint = new Paint();
+        Paint blackPaint = new Paint();
         Paint accentPaint = new Paint();
         paint.setAntiAlias(true);
         FRLayout layout = new FRLayout(graph, new Dimension(getWidth(), getHeight()));
-        whitePaint.setColor(getResources().getColor(R.color.background_light));
+        whitePaint.setColor(getResources().getColor(R.color.backgroundColorLightTheme));
         whitePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         whitePaint.setStrokeWidth(2f);
         whitePaint.setTextSize(35);
-        whitePaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.default_graph));
-        accentPaint.setColor(getResources().getColor(R.color.colorAccent));
+        whitePaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.defaultGraphColorLightTheme));
+        blackPaint.setColor(getResources().getColor(R.color.primaryTextColorLightTheme));
+        blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        blackPaint.setStrokeWidth(2f);
+        blackPaint.setTextSize(35);
+        blackPaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.defaultGraphColorLightTheme));
+        accentPaint.setColor(getResources().getColor(R.color.secondaryDarkColorLightTheme));
         accentPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         accentPaint.setStrokeWidth(2f);
-        accentPaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.default_graph));
+        accentPaint.setShadowLayer(5, 0, 0, getResources().getColor(R.color.defaultGraphColorLightTheme));
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(50f);
-        paint.setColor(getResources().getColor(R.color.background));
+        paint.setColor(getResources().getColor(R.color.graphNodeBackgroundColorLightTheme));
         Paint curvePaint = new Paint();
         curvePaint.setAntiAlias(true);
         curvePaint.setStyle(Paint.Style.STROKE);
         curvePaint.setStrokeWidth(2);
-        curvePaint.setColor(getResources().getColor(R.color.background_light));
+        curvePaint.setColor(getResources().getColor(R.color.secondaryColorLightTheme));
         for (Edge edge : graph.getEdges()) {
             Point2D p1 = layout.transform(edge.getFrom());
             Point2D p2 = layout.transform(edge.getTo());
-            paint.setStrokeWidth(AppConstants.STROKE_WIDTH_EDGE);
-            paint.setColor(getResources().getColor(R.color.colorAccent));
             PointF e1 = new PointF((float) p1.getX(), (float) p1.getY());
             PointF e2 = new PointF((float) p2.getX(), (float) p2.getY());
             Timber.tag("edge").d(edge.getString());
-            ArcUtils.drawArc(e1, e2, 36f, canvas, curvePaint, whitePaint, AppConstants.STROKE_WIDTH_EDGE, edge.getString());
+            ArcUtils.drawArc(e1, e2, 36f, canvas, curvePaint, blackPaint, AppConstants.STROKE_WIDTH_EDGE, edge.getString());
         }
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(50f);
         paint.setStrokeWidth(0f);
-        paint.setColor(getResources().getColor(R.color.background_light));
+        paint.setColor(getResources().getColor(R.color.backgroundColorLightTheme));
         for (Node node : graph.getNodes()) {
             Point2D position = layout.transform(node);
 

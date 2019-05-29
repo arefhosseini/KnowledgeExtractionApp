@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.inputmethod.EditorInfo
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -32,6 +32,9 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     lateinit var factory: ViewModelProviderFactory
     private lateinit var relationViewModel: RelationViewModel
     private lateinit var relationActivityBinding: ActivityRelationBinding
+
+    private lateinit var graphLayout: RelativeLayout
+    private lateinit var toolbar: Toolbar
 
     companion object {
         fun newIntent(context: Context) = Intent(context, RelationActivity::class.java)
@@ -85,8 +88,10 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     }
 
     private fun setUp() {
-        relationActivityBinding.graphLayout
+        graphLayout = relationActivityBinding.graphLayout
+        toolbar = relationActivityBinding.toolbar
 
+        setSupportActionBar(toolbar)
     }
 
     private fun showAboutFragment() {
@@ -103,14 +108,14 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
 
         val graphSurface =
             LayoutInflater.from(applicationContext).inflate(R.layout.graph_surface_view,
-                relationActivityBinding.graphLayout, false) as GraphSurfaceView
-        relationActivityBinding.graphLayout.addView(graphSurface)
+                graphLayout, false) as GraphSurfaceView
+        graphLayout.addView(graphSurface)
 
         graphSurface.init(relationViewModel.getGraph())
         //graphSurface.createGraph()
     }
 
     override fun removeGraph() {
-        relationActivityBinding.graphLayout.removeAllViews()
+        graphLayout.removeAllViews()
     }
 }

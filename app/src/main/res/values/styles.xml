@@ -7,9 +7,9 @@
     <style name="MyTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColorLightTheme</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColorLightTheme</item>
+        <item name="colorAccent">@color/secondaryColorLightTheme</item>
     </style>
 
     <style name="MyTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
