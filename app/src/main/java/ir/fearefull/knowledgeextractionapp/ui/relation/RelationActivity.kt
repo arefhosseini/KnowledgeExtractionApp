@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
@@ -146,7 +145,7 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     override fun createGraph() {
         hideKeyboard()
         val graphSurface =
-            LayoutInflater.from(applicationContext).inflate(R.layout.graph_surface_view,
+            LayoutInflater.from(applicationContext).inflate(R.layout.item_graph_surface_view,
                 relationActivityBinding.graphLayout, false) as GraphSurfaceView
         relationActivityBinding.graphLayout.addView(graphSurface)
 
