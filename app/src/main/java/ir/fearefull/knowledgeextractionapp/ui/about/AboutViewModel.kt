@@ -7,7 +7,11 @@ import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 class AboutViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider) :
     BaseViewModel<AboutNavigator>(dataManager, schedulerProvider) {
 
-    fun onNavBackClick() {
+    fun onNavigationBackClick() {
         getNavigator()?.goBack()
+    }
+
+    fun onOpenGithubClick() {
+        getNavigator()?.openGithubClick()
     }
 }

@@ -30,7 +30,7 @@ class AppModule {
     @Singleton
     fun provideCalligraphyDefaultConfig(): CalligraphyConfig {
         return CalligraphyConfig.Builder()
-            .setDefaultFontPath("fonts/my_font.ttf")
+            .setDefaultFontPath("fonts/b_nazanin.ttf")
             .setFontAttrId(R.attr.fontPath)
             .build()
     }

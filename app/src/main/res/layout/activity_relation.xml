@@ -25,7 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fitsSystemWindows="true"
-                    android:theme="@style/MyTheme.AppBarOverlay">
+                    android:theme="@style/AppTheme.AppBarOverlay">
                 <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
@@ -36,30 +36,31 @@
                         app:contentInsetRight="0dp"
                         app:contentInsetEnd="0dp"
                         app:contentInsetStart="0dp"
-                        app:popupTheme="@style/MyTheme.PopupOverlay" >
+                        app:popupTheme="@style/AppTheme.PopupOverlay" >
 
                     <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical">
                         <TextView
+                                style="@style/Toolbar.TitleText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center"
                                 android:text="@string/app_name"
-                                style="@style/Base.TextAppearance.AppCompat.Medium"
-                                android:textColor="@color/primaryTextColorDarkTheme"
-                                android:textStyle="bold" />
+                                android:textColor="@color/primaryTextColorDarkTheme"/>
 
                         <ImageButton
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:id="@+id/imageButtonInfo"
+                                style="@style/Button.ImageButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_centerVertical="true"
-                                android:padding="12dp"
-                                android:background="?actionBarItemBackground"
+                                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                                android:onClick="@{() -> viewModel.onShowFragmentInfo()}"
                                 android:src="@drawable/ic_info_outline_white_24dp"
                                 tools:ignore="RtlHardcoded" />
                     </RelativeLayout>
@@ -107,8 +108,9 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:mutableVisibility="@{viewModel.getLoadingVisibility()}"
+                android:visibility="gone"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+                android:layout_centerVertical="true"/>
     </RelativeLayout>
 </layout>

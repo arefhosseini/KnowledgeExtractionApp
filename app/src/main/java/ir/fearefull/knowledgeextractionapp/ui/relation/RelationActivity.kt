@@ -4,11 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.RelativeLayout
-import androidx.appcompat.widget.Toolbar
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import ir.fearefull.knowledgeextractionapp.BR
@@ -19,12 +26,12 @@ import ir.fearefull.knowledgeextractionapp.ui.about.AboutFragment
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseActivity
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 import ir.fearefull.knowledgeextractionapp.ui.custom.GraphSurfaceView
+import kotlinx.android.synthetic.main.activity_relation.*
 import timber.log.Timber
 import javax.inject.Inject
 
 class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), RelationNavigator,
     HasSupportFragmentInjector {
-
 
     @Inject
     lateinit var fragmentDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
@@ -32,9 +39,8 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
     lateinit var factory: ViewModelProviderFactory
     private lateinit var relationViewModel: RelationViewModel
     private lateinit var relationActivityBinding: ActivityRelationBinding
-
-    private lateinit var graphLayout: RelativeLayout
-    private lateinit var toolbar: Toolbar
+    private lateinit var animation: Animation
+    private var errorSnackbar: Snackbar? = null
 
     companion object {
         fun newIntent(context: Context) = Intent(context, RelationActivity::class.java)
@@ -74,6 +80,8 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
                 .remove(fragment)
                 .commitNow()
         }
+        if (graphLayout.childCount > 0)
+            relationActivityBinding.graphLayout.findViewById<GraphSurfaceView>(R.id.graphSurface).visibility = View.VISIBLE
     }
 
     override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>? {
@@ -84,17 +92,34 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
         super.onCreate(savedInstanceState)
         relationActivityBinding = getViewDataBinding() as ActivityRelationBinding
         relationViewModel.setNavigator(this)
+        relationViewModel.errorMessage.observe(this, Observer {
+                errorMessage -> if(errorMessage != null) showError(errorMessage) else hideError()
+        })
+        animation = AnimationUtils.loadAnimation(this, R.anim.slide_right)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+            }
+
+            override fun onAnimationStart(p0: Animation?) {
+            }
+
+        })
         setUp()
     }
 
     private fun setUp() {
-        graphLayout = relationActivityBinding.graphLayout
-        toolbar = relationActivityBinding.toolbar
+        relationActivityBinding.toolbar
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(relationActivityBinding.toolbar)
     }
 
-    private fun showAboutFragment() {
+    override fun showAboutFragment() {
+        hideKeyboard()
+        if (graphLayout.childCount > 0)
+            relationActivityBinding.graphLayout.findViewById<GraphSurfaceView>(R.id.graphSurface).visibility = View.GONE
         supportFragmentManager
             .beginTransaction()
             .disallowAddToBackStack()
@@ -103,19 +128,33 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
             .commit()
     }
 
+
+    private fun showError(@StringRes errorMessage:Int){
+        hideKeyboard()
+        errorSnackbar = Snackbar.make(relationActivityBinding.rootView, errorMessage, Snackbar.LENGTH_INDEFINITE)
+        errorSnackbar?.setAction(R.string.retry, relationViewModel.errorClickListener)
+        errorSnackbar?.setActionTextColor(ContextCompat.getColor(baseContext, R.color.secondaryTextColorLightTheme))
+        ViewCompat.setLayoutDirection(errorSnackbar!!.view, ViewCompat.LAYOUT_DIRECTION_RTL)
+        errorSnackbar!!.view.setBackgroundColor(ContextCompat.getColor(baseContext, R.color.secondaryColorLightTheme))
+        errorSnackbar?.show()
+    }
+
+    private fun hideError(){
+        errorSnackbar?.dismiss()
+    }
+
     override fun createGraph() {
         hideKeyboard()
-
         val graphSurface =
             LayoutInflater.from(applicationContext).inflate(R.layout.graph_surface_view,
-                graphLayout, false) as GraphSurfaceView
-        graphLayout.addView(graphSurface)
+                relationActivityBinding.graphLayout, false) as GraphSurfaceView
+        relationActivityBinding.graphLayout.addView(graphSurface)
 
         graphSurface.init(relationViewModel.getGraph())
         //graphSurface.createGraph()
     }
 
     override fun removeGraph() {
-        graphLayout.removeAllViews()
+        relationActivityBinding.graphLayout.removeAllViews()
     }
 }

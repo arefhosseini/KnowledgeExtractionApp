@@ -9,6 +9,10 @@ import ir.fearefull.knowledgeextractionapp.ViewModelProviderFactory
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseFragment
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 import javax.inject.Inject
+import android.content.Intent
+import android.net.Uri
+import ir.fearefull.knowledgeextractionapp.utils.AppConstants
+
 
 class AboutFragment : BaseFragment<ViewDataBinding, BaseViewModel<*>>(), AboutNavigator {
 
@@ -37,6 +41,11 @@ class AboutFragment : BaseFragment<ViewDataBinding, BaseViewModel<*>>(), AboutNa
     }
 
     override fun goBack() = getBaseActivity()?.onFragmentDetached(TAG)
+
+    override fun openGithubClick() {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.GITHUB_REPOSITORY_URL))
+        startActivity(browserIntent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

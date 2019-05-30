@@ -1,7 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">گراف دانش</string>
 
-    <string name="retry">Retry</string>
-    <string name="post_error">An error occurred while loading the posts</string>
-    <string name="edit_text_hint">متن را وارد کنید...</string>
+    <string name="retry">تلاش مجدد</string>
+    <string name="error_no_internet">لطفا از اتصال اینترنت خود مطمئن شوید.</string>
+    <string name="edit_text_hint" tools:ignore="TypographyEllipsis">متن را وارد کنید...</string>
+    <string name="about_header">درباره ما</string>
+    <string name="project_info">گراف دانش</string>
+    <string name="version">نسخه 1.0</string>
 </resources>
