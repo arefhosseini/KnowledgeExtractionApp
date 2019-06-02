@@ -5,6 +5,7 @@ data class Edge(
     val to: Node,
     val labels: ArrayList<String> = arrayListOf()) {
     fun addLabel(label: String) = labels.add(label)
+    fun addLabels(labels: ArrayList<String>) = this.labels.addAll(labels)
     fun removeLabel(label: String) { if (label in labels) labels.remove(label) }
     fun getString(): String {
         var string = "{"

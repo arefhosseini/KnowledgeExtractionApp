@@ -26,13 +26,13 @@ data class NodeResponse(
  * Class which provides a model for Edge
  * @constructor Sets all properties of the Edge
  * @property id the subject of the Edge
- * @property label the predicate of the Edge
+ * @property labels the predicate of the Edge
  * @property from the predicate of the Edge
  * @property to the obj of the Edge
  */
 
 data class EdgeResponse(
     @Json(name = "id") val id: Int,
-    @Json(name = "label") val label: String,
+    @Json(name = "labels") val labels: List<String>,
     @Json(name = "from") val from: Int,
     @Json(name = "to") val to: Int)

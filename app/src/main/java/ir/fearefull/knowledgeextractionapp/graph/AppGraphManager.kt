@@ -2,6 +2,7 @@ package ir.fearefull.knowledgeextractionapp.graph
 
 import ir.fearefull.knowledgeextractionapp.data.model.api.RelationsResponse
 import ir.fearefull.knowledgeextractionapp.data.model.other.Graph
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +17,7 @@ class AppGraphManager @Inject constructor(): GraphManager {
             graph.addNode(node.label)
         }
         for (edge in relationsResponse.relations.edges) {
-            graph.addEdge(edge.label, edge.from, edge.to)
+            graph.addEdge(edge.labels as ArrayList<String>, edge.from, edge.to)
         }
     }
 

@@ -8,21 +8,12 @@ data class Graph(
         nodes.add(Node(label))
     }
 
-    fun addEdge(label: String, from: Int, to: Int) {
+    fun addEdge(labels: ArrayList<String>, from: Int, to: Int) {
         val fromNode = nodes[from]
         val toNode = nodes[to]
-        var edge: Edge? = null
-        for (e in edges) {
-            if (e.from == fromNode && e.to == toNode){
-                edge = e
-            }
-        }
-        if (edge == null) {
-            edge = Edge(fromNode, toNode)
-            edges.add(edge)
-        }
-        edge.addLabel(label)
-
+        val edge = Edge(fromNode, toNode)
+        edge.addLabels(labels)
+        edges.add(edge)
     }
 
     fun removeNode(node: Node){ if (node in nodes) nodes.remove(node) }

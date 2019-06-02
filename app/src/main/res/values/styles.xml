@@ -33,7 +33,7 @@
     </style>
 
     <style name="TextAppearance.Text.Bold" parent="android:TextAppearance">
-        <item name="fontPath">fonts/b_nazanin_bold.ttf</item>
+        <item name="fontPath">fonts/b_nazanin_bold.TTF</item>
         <item name="android:textColor">@color/primaryTextColorLightTheme</item>
     </style>
 
