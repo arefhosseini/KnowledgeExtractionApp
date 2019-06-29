@@ -2,4 +2,4 @@ language: android
 dist: trusty
 android:
   components:
-    - android-29
+    - android-28
