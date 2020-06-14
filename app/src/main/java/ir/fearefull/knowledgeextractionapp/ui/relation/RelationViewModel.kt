@@ -7,13 +7,12 @@ import ir.fearefull.knowledgeextractionapp.R
 import ir.fearefull.knowledgeextractionapp.data.DataManager
 import ir.fearefull.knowledgeextractionapp.data.model.api.RelationsResponse
 import ir.fearefull.knowledgeextractionapp.data.model.other.Graph
-import ir.fearefull.knowledgeextractionapp.graph.GraphManager
 import ir.fearefull.knowledgeextractionapp.ui.about.AboutFragment
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
 import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
 import timber.log.Timber
 
-class RelationViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider, var graphManager: GraphManager) :
+class RelationViewModel(dataManager: DataManager, schedulerProvider: SchedulerProvider) :
     BaseViewModel<RelationNavigator>(dataManager, schedulerProvider) {
 
     var searchText: String? = null
@@ -42,18 +41,6 @@ class RelationViewModel(dataManager: DataManager, schedulerProvider: SchedulerPr
         getCompositeDisposable()?.add(subscription)
     }
 
-    private fun chooseAction(){
-        if (graphManager.getMyGraph().isEmpty()) {
-            Timber.d("zero")
-        }
-        else {
-            getNavigator()?.createGraph()
-        }
-
-    }
-
-    fun getGraph() = this.graphManager.getMyGraph()
-
     fun onShowFragmentInfo() {
         getNavigator()?.showAboutFragment()
     }
@@ -69,8 +56,6 @@ class RelationViewModel(dataManager: DataManager, schedulerProvider: SchedulerPr
     }
 
     private fun onRetrieveRelationsSuccess(relationsResponse: RelationsResponse){
-        graphManager.createGraph(relationsResponse)
-        chooseAction()
     }
 
     private fun onRetrieveRelationsError(error: Throwable){

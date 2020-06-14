@@ -10,6 +10,8 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import ir.fearefull.knowledgeextractionapp.data.model.other.MyCard
+import ir.fearefull.knowledgeextractionapp.ui.relation.MyCardAdapter
 import ir.fearefull.knowledgeextractionapp.utils.extension.getParentActivity
 
 object BindingUtils {
@@ -33,8 +35,12 @@ object BindingUtils {
 
     @BindingAdapter("adapter")
     @JvmStatic
-    fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
-        view.adapter = adapter
+    fun setAdapter(recyclerView: RecyclerView, myCards: List<MyCard>) {
+        val adapter: MyCardAdapter? = recyclerView.adapter as MyCardAdapter?
+        if (adapter != null) {
+            adapter.clearItems()
+            adapter.addItems(myCards)
+        }
     }
 
     /*@BindingAdapter("networkGraph")

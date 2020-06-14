@@ -24,7 +24,6 @@ import ir.fearefull.knowledgeextractionapp.databinding.ActivityRelationBinding
 import ir.fearefull.knowledgeextractionapp.ui.about.AboutFragment
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseActivity
 import ir.fearefull.knowledgeextractionapp.ui.base.BaseViewModel
-import ir.fearefull.knowledgeextractionapp.ui.custom.GraphSurfaceView
 import kotlinx.android.synthetic.main.activity_relation.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -79,8 +78,6 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
                 .remove(fragment)
                 .commitNow()
         }
-        if (graphLayout.childCount > 0)
-            relationActivityBinding.graphLayout.findViewById<GraphSurfaceView>(R.id.graphSurface).visibility = View.VISIBLE
     }
 
     override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment>? {
@@ -113,12 +110,16 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
         relationActivityBinding.toolbar
 
         setSupportActionBar(relationActivityBinding.toolbar)
+
+        supportFragmentManager
+            .beginTransaction()
+            .disallowAddToBackStack()
+            .add(R.id.rootView, MyCardsFragment.newInstance(), MyCardsFragment.TAG)
+            .commit()
     }
 
     override fun showAboutFragment() {
         hideKeyboard()
-        if (graphLayout.childCount > 0)
-            relationActivityBinding.graphLayout.findViewById<GraphSurfaceView>(R.id.graphSurface).visibility = View.GONE
         supportFragmentManager
             .beginTransaction()
             .disallowAddToBackStack()
@@ -140,17 +141,6 @@ class RelationActivity: BaseActivity<ViewDataBinding, BaseViewModel<*>>(), Relat
 
     private fun hideError(){
         errorSnackbar?.dismiss()
-    }
-
-    override fun createGraph() {
-        hideKeyboard()
-        val graphSurface =
-            LayoutInflater.from(applicationContext).inflate(R.layout.item_graph_surface_view,
-                relationActivityBinding.graphLayout, false) as GraphSurfaceView
-        relationActivityBinding.graphLayout.addView(graphSurface)
-
-        graphSurface.init(relationViewModel.getGraph())
-        //graphSurface.createGraph()
     }
 
     override fun removeGraph() {

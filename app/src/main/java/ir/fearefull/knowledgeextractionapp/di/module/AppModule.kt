@@ -9,8 +9,6 @@ import ir.fearefull.knowledgeextractionapp.R
 import ir.fearefull.knowledgeextractionapp.data.AppDataManager
 import ir.fearefull.knowledgeextractionapp.data.DataManager
 import ir.fearefull.knowledgeextractionapp.data.remote.ApiHelper
-import ir.fearefull.knowledgeextractionapp.graph.AppGraphManager
-import ir.fearefull.knowledgeextractionapp.graph.GraphManager
 import ir.fearefull.knowledgeextractionapp.utils.AppConstants.BASE_URL
 import ir.fearefull.knowledgeextractionapp.utils.rx.AppSchedulerProvider
 import ir.fearefull.knowledgeextractionapp.utils.rx.SchedulerProvider
@@ -65,10 +63,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDataManager(appDataManager: AppDataManager): DataManager = appDataManager
-
-    @Provides
-    @Singleton
-    fun provideGraphManager(appGraphManager: AppGraphManager): GraphManager = appGraphManager
 
     @Provides
     fun provideSchedulerProvider(): SchedulerProvider = AppSchedulerProvider()

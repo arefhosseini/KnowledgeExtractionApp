@@ -1,15 +1,15 @@
 package ir.fearefull.knowledgeextractionapp.ui.base
 
 import android.content.Context
-import dagger.android.support.AndroidSupportInjection
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : Fragment() {
 
@@ -75,6 +75,8 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel<*>> : Fragmen
     }
 
     fun getBaseActivity(): BaseActivity<*, *>? = baseActivity
+
+    fun getViewDataBinding(): T = viewDataBinding
 
     fun hideKeyboard() {
         baseActivity?.hideKeyboard()

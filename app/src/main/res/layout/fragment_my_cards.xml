@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ir.fearefull.knowledgeextractionapp.ui.relation.MyCardsViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryColorLightTheme"
+        tools:ignore="RtlHardcoded">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myCardRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layoutDirection="rtl"
+            app:adapter="@{viewModel.myCardItemsLiveData}"
+            tools:listitem="@layout/my_card" />
+
+    </RelativeLayout>
+
+</layout>
